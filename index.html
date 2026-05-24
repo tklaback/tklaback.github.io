@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ty Klabacka</title>
+  <meta name="description" content="Ty Klabacka — PhD student in compiler optimization and high-performance computing at the University of Utah." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --ink: #1a1a1a;
+      --muted: #6b6660;
+      --rule: #d8d2c8;
+      --accent: #a8421b;
+      --serif: "Fraunces", Georgia, serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14130f;
+        --ink: #ebe6dc;
+        --muted: #8a847a;
+        --rule: #2a2823;
+        --accent: #e8895f;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 180ms ease, color 180ms ease;
+    }
+    a:hover { border-color: var(--accent); color: var(--accent); }
+
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 9vh 28px 14vh;
+    }
+
+    header { margin-bottom: 64px; }
+
+    .header-grid {
+      display: grid;
+      grid-template-columns: 1fr 132px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .portrait {
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--rule);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(15%) contrast(1.02);
+      transition: filter 400ms ease;
+    }
+    .portrait:hover img { filter: grayscale(0%) contrast(1.02); }
+
+    /* Placeholder shown if the image is missing */
+    .portrait.empty::after {
+      content: "TK";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 2.4rem;
+      color: var(--muted);
+      background: var(--rule);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.4rem, 5.5vw, 3.4rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 0 0 18px;
+      font-variation-settings: "opsz" 144;
+    }
+
+    h1 .amp {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 38ch;
+      margin: 0;
+    }
+
+    .contact {
+      margin-top: 22px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 18px;
+    }
+    .contact a { border-bottom-color: transparent; color: var(--muted); }
+    .contact a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    section { margin-top: 56px; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin: 0 0 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .section-label .num { font-variant-numeric: tabular-nums; }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px 24px;
+      margin-bottom: 32px;
+    }
+    .entry:last-child { margin-bottom: 0; }
+
+    .entry-role {
+      font-size: 1.12rem;
+      font-weight: 400;
+      margin: 0;
+      letter-spacing: -0.005em;
+    }
+    .entry-role em {
+      font-style: italic;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .entry-date {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      padding-top: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-body {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 0.97rem;
+      margin: 4px 0 0;
+      max-width: 60ch;
+    }
+
+    .skills {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+    .skills span {
+      display: inline-block;
+      padding: 0 2px;
+    }
+    .skills .sep {
+      color: var(--rule);
+      padding: 0 8px;
+    }
+
+    footer {
+      margin-top: 96px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Subtle entrance */
+    header, section, footer {
+      animation: rise 700ms cubic-bezier(.2,.6,.2,1) both;
+    }
+    section:nth-of-type(1) { animation-delay: 80ms; }
+    section:nth-of-type(2) { animation-delay: 140ms; }
+    section:nth-of-type(3) { animation-delay: 200ms; }
+    section:nth-of-type(4) { animation-delay: 260ms; }
+    footer { animation-delay: 340ms; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      main { padding: 6vh 22px 10vh; }
+      .entry { grid-template-columns: 1fr; }
+      .entry-date { padding-top: 0; }
+      .header-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .portrait {
+        width: 96px;
+        height: 96px;
+        order: -1;
+      }
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="header-grid">
+        <div>
+          <h1>Ty Klabacka <span class="amp">&</span> compilers.</h1>
+          <p class="tagline">
+            PhD student at the University of Utah working on compiler optimization
+            and high-performance computing — currently on adaptive mesh refinement
+            with Dr.&nbsp;Mary Hall.
+          </p>
+          <div class="contact">
+            <a href="mailto:klabacka.ty@gmail.com">klabacka.ty@gmail.com</a>
+            <a href="https://linkedin.com/in/tklaback" target="_blank" rel="noopener">linkedin / tklaback</a>
+            <span>Salt Lake City, UT</span>
+          </div>
+        </div>
+        <div class="portrait empty">
+          <img src="portrait.jpg" alt="Ty Klabacka" onerror="this.style.display='none'" />
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <p class="section-label"><span>Education</span><span class="num">01</span></p>
+
+      <div class="entry">
+        <p class="entry-role">PhD, Compiler Optimization &amp; HPC <em>— University of Utah</em></p>
+        <p class="entry-date">2025 —</p>
+        <p class="entry-body">
+          Advised by Dr.&nbsp;Mary Hall. Improving adaptive mesh refinement
+          performance through hash-based data layouts that enhance scalability
+          and efficiency in scientific simulations.
+        </p>
+      </div>
+
+      <div class="entry">
+        <p class="entry-role">BS, Computer Science <em>— Brigham Young University</em></p>
+        <p class="entry-date">2025</p>
+        <p class="entry-body">
+          Coursework in theory of computation, formal verification, software
+          architecture, computer language design, and analysis of algorithms.
+          Competitive programming club.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <p class="section-label"><span>Experience</span><span class="num">02</span></p>
+
+      <div class="entry">
+        <p class="entry-role">Software Engineer Intern <em>— Amazon, Neuron Automated Reasoning</em></p>
+        <p class="entry-date">2025</p>
+        <p class="entry-body">
+          Built an authoritative instruction-behavior library inside the Neuron
+          compiler pipeline. Used by the compiler simulator to test pass
+          differentials and verify that semantics aren't lost between
+          optimization passes.
+        </p>
+      </div>
+
+      <div class="entry">
+        <p class="entry-role">Research Assistant <em>— Verification &amp; Validation Lab, BYU</em></p>
+        <p class="entry-date">2024 — 2025</p>
+        <p class="entry-body">
+          Built a Python translation system converting BPMN diagrams into
+          Promela, enabling formal model checking with Spin. Supported
+          published research on workflow reliability in healthcare systems.
+        </p>
+      </div>
+
+      <div class="entry">
+        <p class="entry-role">Software Engineer Intern <em>— Pluralsight</em></p>
+        <p class="entry-date">Summer 2024</p>
+        <p class="entry-body">
+          Migrated 11 REST endpoints to GraphQL in Ruby on Rails and integrated
+          the subgraph into a federated gateway. Wrote 100% test coverage
+          across queries and mutations.
+        </p>
+      </div>
+
+      <div class="entry">
+        <p class="entry-role">Research Assistant <em>— Perception, Control &amp; Cognition Lab, BYU</em></p>
+        <p class="entry-date">2023 — 2024</p>
+        <p class="entry-body">
+          Built a Python SMS platform simulating 200+ concurrent users for
+          political discourse experiments. Deployed a stable-diffusion web app
+          across 14 GPU EC2 instances with auto-scaling and load balancing.
+        </p>
+      </div>
+
+      <div class="entry">
+        <p class="entry-role">Software Engineer Intern <em>— Pluralsight</em></p>
+        <p class="entry-date">Summer 2023</p>
+        <p class="entry-body">
+          Automated user de-provisioning across four third-party services with
+          AWS Lambda (Python), saving the cloud engineering team roughly 260
+          hours per year. Built reliable workflows on SNS, SQS, and API Gateway.
+        </p>
+      </div>
+
+      <div class="entry">
+        <p class="entry-role">Software Engineer Intern <em>— Los Alamos National Laboratory</em></p>
+        <p class="entry-date">Summer 2022</p>
+        <p class="entry-body">
+          Engineered a high-performance C algorithm for ARM microcontrollers,
+          processing 300,000+ data packets in under a second using low-level
+          driver APIs.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <p class="section-label"><span>Stack</span><span class="num">03</span></p>
+      <p class="skills">
+        <span>C / C++</span><span class="sep">·</span>
+        <span>Python</span><span class="sep">·</span>
+        <span>TypeScript</span><span class="sep">·</span>
+        <span>Ruby on Rails</span><span class="sep">·</span>
+        <span>GraphQL</span><span class="sep">·</span>
+        <span>REST</span><span class="sep">·</span>
+        <span>AWS</span><span class="sep">·</span>
+        <span>Compilers</span><span class="sep">·</span>
+        <span>Formal Verification</span><span class="sep">·</span>
+        <span>Embedded</span>
+      </p>
+    </section>
+
+    <footer>
+      <span>Ty Klabacka</span>
+      <span>2026</span>
+    </footer>
+  </main>
+</body>
+</html>
