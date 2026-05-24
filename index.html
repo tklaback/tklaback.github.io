@@ -83,10 +83,7 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      filter: grayscale(15%) contrast(1.02);
-      transition: filter 400ms ease;
     }
-    .portrait:hover img { filter: grayscale(0%) contrast(1.02); }
 
     /* Placeholder shown if the image is missing */
     .portrait.empty::after {
@@ -272,7 +269,7 @@
             <span>Salt Lake City, UT</span>
           </div>
         </div>
-        <div class="portrait empty">
+        <div class="portrait">
           <img src="portrait.jpg" alt="Ty Klabacka" onerror="this.style.display='none'" />
         </div>
       </div>
