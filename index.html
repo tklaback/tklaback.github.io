@@ -138,6 +138,48 @@
     .contact a { border-bottom-color: transparent; color: var(--muted); }
     .contact a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
+    nav.tabs {
+      margin-top: 56px;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      gap: 0;
+    }
+    nav.tabs a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 22px 14px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 180ms ease, border-color 180ms ease;
+      position: relative;
+    }
+    nav.tabs a:first-child { padding-left: 0; }
+    nav.tabs a:hover {
+      color: var(--ink);
+      border-bottom-color: var(--rule);
+    }
+    nav.tabs a.active {
+      color: var(--ink);
+      border-bottom-color: var(--accent);
+    }
+    nav.tabs a.active::after {
+      content: "·";
+      position: absolute;
+      right: 8px;
+      top: 12px;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    nav.tabs a:first-child.active::after { display: none; }
+
+    @media (max-width: 520px) {
+      nav.tabs { gap: 0; }
+      nav.tabs a { padding: 10px 14px 12px; font-size: 0.72rem; letter-spacing: 0.06em; }
+    }
+
     section { margin-top: 56px; }
 
     .section-label {
@@ -267,7 +309,6 @@
           <div class="contact">
             <a href="mailto:klabacka.ty@gmail.com">klabacka.ty@gmail.com</a>
             <a href="https://linkedin.com/in/tklaback" target="_blank" rel="noopener">linkedin / tklaback</a>
-            <a href="photography.html">photography</a>
             <span>Salt Lake City, UT</span>
           </div>
         </div>
@@ -276,6 +317,11 @@
         </div>
       </div>
     </header>
+
+    <nav class="tabs">
+      <a href="index.html" class="active">About</a>
+      <a href="photography.html">Photography</a>
+    </nav>
 
     <section>
       <p class="section-label"><span>Education</span><span class="num">01</span></p>
