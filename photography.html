@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photography — Ty Klabacka</title>
+  <meta name="description" content="Photography by Ty Klabacka." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --ink: #1a1a1a;
+      --muted: #6b6660;
+      --rule: #d8d2c8;
+      --accent: #a8421b;
+      --serif: "Fraunces", Georgia, serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14130f;
+        --ink: #ebe6dc;
+        --muted: #8a847a;
+        --rule: #2a2823;
+        --accent: #e8895f;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 180ms ease, color 180ms ease;
+    }
+    a:hover { border-color: var(--accent); color: var(--accent); }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 9vh 28px 14vh;
+    }
+
+    nav.top {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    nav.top a { border-bottom: none; color: var(--muted); }
+    nav.top a:hover { color: var(--accent); }
+    nav.top .crumb::before {
+      content: "← ";
+      opacity: 0.6;
+    }
+
+    header { margin-bottom: 56px; max-width: 640px; }
+
+    h1 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.4rem, 5.5vw, 3.4rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 0 0 18px;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 50ch;
+      margin: 0;
+    }
+
+    .meta {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+    .meta a { border-bottom: 1px solid var(--rule); color: var(--muted); }
+
+    /* Masonry via CSS columns — works on GitHub Pages, no JS. */
+    .gallery {
+      column-count: 3;
+      column-gap: 18px;
+    }
+    @media (max-width: 900px) { .gallery { column-count: 2; } }
+    @media (max-width: 520px) { .gallery { column-count: 1; column-gap: 14px; } }
+
+    .photo {
+      display: block;
+      margin: 0 0 18px;
+      break-inside: avoid;
+      border-bottom: none;
+      position: relative;
+      overflow: hidden;
+      background: var(--rule);
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 600ms cubic-bezier(.2,.6,.2,1), filter 300ms ease;
+    }
+    .photo:hover img {
+      transform: scale(1.02);
+    }
+
+    .photo figcaption {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 14px 14px 12px;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+      opacity: 0;
+      transition: opacity 240ms ease;
+    }
+    .photo:hover figcaption { opacity: 1; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,9,7,0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 5vh 5vw;
+      z-index: 100;
+      cursor: zoom-out;
+      animation: fade 240ms ease;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .lightbox .close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.1em;
+    }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+    footer {
+      margin-top: 96px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    header, .gallery, footer {
+      animation: rise 700ms cubic-bezier(.2,.6,.2,1) both;
+    }
+    .gallery { animation-delay: 120ms; }
+    footer { animation-delay: 280ms; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="top">
+      <a href="index.html" class="crumb">Ty Klabacka</a>
+      <span>Photography</span>
+    </nav>
+
+    <header>
+      <h1>Photographs <em>&amp;</em> light.</h1>
+      <p class="tagline">
+        A loose collection — what catches the eye between compiler passes.
+      </p>
+      <p class="meta">
+        Hosted on
+        <a href="https://www.flickr.com/photos/YOUR-FLICKR-USERNAME/" target="_blank" rel="noopener">Flickr</a>
+      </p>
+    </header>
+
+    <!--
+      HOW TO ADD A PHOTO:
+      1. On Flickr → photo → download arrow → View all sizes → pick Large 1600
+      2. Right-click the image → Copy image address  (this is the src URL)
+      3. Copy the photo's page URL from the address bar (this is the href URL)
+      4. Duplicate one <figure> block below and paste the two URLs in.
+      Per Flickr's terms, each image must link back to its Flickr page.
+    -->
+    <div class="gallery" id="gallery">
+
+      <figure class="photo">
+        <a href="https://www.flickr.com/photos/200946680@N06/55283718796/in/dateposted/" target="_blank" rel="noopener" data-lightbox>
+          <img src="https://live.staticflickr.com/65535/55283718796_20e8a3bfe9_k.jpg"
+              alt="DSCF7993"
+              loading="lazy" />
+          <figcaption>DSCF7993</figcaption>
+        </a>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54620395146/in/dateposted-public/" title="DSCF7022"><img src="https://live.staticflickr.com/65535/54620395146_0bbd2ae3e4_k.jpg" width="2048" height="1365" alt="DSCF7022"/>
+        </a>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54619457477/in/dateposted-public/" title="DSCF6282"><img src="https://live.staticflickr.com/65535/54619457477_bcb95f0499_k.jpg" width="2048" height="1365" alt="DSCF6282"/></a>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54558995735/in/dateposted-public/" title="DSCF6091"><img src="https://live.staticflickr.com/65535/54558995735_b38f7289b8_k.jpg" width="2048" height="1365" alt="DSCF6091"/></a>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54557804847/in/dateposted-public/" title="DSCF5978"><img src="https://live.staticflickr.com/65535/54557804847_d3746628f9_k.jpg" width="2048" height="1365" alt="DSCF5978"/>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54558602416/in/dateposted-public/" title="DSCF5756"><img src="https://live.staticflickr.com/65535/54558602416_5406b6aa3a_k.jpg" width="2048" height="1365" alt="DSCF5756"/></a>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54497577936/in/dateposted-public/" title="DSCF5414"><img src="https://live.staticflickr.com/65535/54497577936_e2c90836c8_k.jpg" width="2048" height="1365" alt="DSCF5414"/></a>
+      </figure>
+
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54497510346/in/dateposted-public/" title="DSCF5249"><img src="https://live.staticflickr.com/65535/54497510346_fff869fa7c_k.jpg" width="2048" height="1365" alt="DSCF5249"/></a>
+      </figure>
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54490949764/in/dateposted-public/" title="DSCF4936"><img src="https://live.staticflickr.com/65535/54490949764_2544dc52e8_k.jpg" width="2048" height="1365" alt="DSCF4936"/></a>
+      </figure>
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54477390871/in/dateposted-public/" title="DSCF3713"><img src="https://live.staticflickr.com/65535/54477390871_2bf10715cf_k.jpg" width="2048" height="1365" alt="DSCF3713"/></a>
+      </figure>
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54286793287/in/dateposted-public/" title="DSCF2985"><img src="https://live.staticflickr.com/65535/54286793287_2ea5927968_k.jpg" width="2048" height="1365" alt="DSCF2985"/></a>
+      </figure>
+      <figure class="photo">
+        <a data-flickr-embed="true" href="https://www.flickr.com/photos/200946680@N06/54217894043/in/dateposted-public/" title="DSCF0891"><img src="https://live.staticflickr.com/65535/54217894043_5cbbf2fcc4_k.jpg" width="2048" height="1365" alt="DSCF0891"/></a>
+      </figure>
+
+    </div>
+
+    <footer>
+      <span>Ty Klabacka</span>
+      <span><a href="index.html">← back</a></span>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true">
+    <span class="close">esc · click to close</span>
+    <img id="lightbox-img" alt="" />
+  </div>
+
+  <script>
+    // Click a photo → open lightbox instead of jumping to Flickr.
+    // Hold Cmd/Ctrl and click to open the Flickr page in a new tab as usual.
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    document.querySelectorAll('[data-lightbox]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return; // let modifier-clicks go to Flickr
+        e.preventDefault();
+        const img = link.querySelector('img');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    lightbox.addEventListener('click', () => {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImg.src = '';
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+      }
+    });
+  </script>
+</body>
+</html>
